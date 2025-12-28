@@ -52,5 +52,5 @@ htmlcov/
 *.temp
 *~
 nul
-results/
-.results/
+# Results - only track compressed files
+results/raw/

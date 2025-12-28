@@ -4,17 +4,46 @@ AWS Bedrock 기반 LLM 모델의 한국어 성능을 평가하는 벤치마크 �
 
 [English](README_EN.md) | **한국어**
 
+## 벤치마크 결과
+
+> 2024년 12월 기준, AWS Bedrock에서 제공하는 모델들의 한국어 벤치마크 결과입니다.
+
+### 전체 결과 요약
+
+| 벤치마크 | 태스크 | Claude Sonnet 4.5 | Nova Pro | Nova Lite | Nova 2 Lite |
+|----------|--------|:-----------------:|:--------:|:---------:|:-----------:|
+| **KoBEST** | BoolQ | **97.0%** | 97.1% | 95.6% | 81.6% |
+| | COPA | **100.0%** | 95.5% | 93.0% | 92.6% |
+| | HellaSwag | **93.0%** | 70.4% | 65.8% | 65.6% |
+| | SentiNeg | **99.0%** | 96.5% | 96.7% | 94.7% |
+| | WiC | **89.0%** | 79.2% | 80.2% | 74.0% |
+| **HAE-RAE** | General Knowledge | **80.0%** | 58.0% | 42.6% | 44.3% |
+| | History | **98.0%** | 82.4% | 72.3% | 63.3% |
+| | Loan Words | **95.0%** | 74.0% | 63.9% | 62.7% |
+| | Rare Words | **87.0%** | 77.0% | 56.5% | 55.8% |
+| | Reading Comprehension | **77.0%** | 73.0% | 63.7% | 59.6% |
+| | Standard Nomenclature | **96.0%** | 79.1% | 70.6% | 58.2% |
+| **KMMLU** | All (45 domains) | **94.0%** | 55.7% | 40.3% | 55.3% |
+| | | | | | |
+| **평균** | | **92.1%** | **78.1%** | **70.1%** | **67.3%** |
+
+### 모델별 순위
+
+1. **Claude Sonnet 4.5** - 92.1% (모든 태스크에서 최고 성능)
+2. **Nova Pro** - 78.1%
+3. **Nova Lite** - 70.1%
+4. **Nova 2 Lite** - 67.3%
+
 ## 개요
 
 이 프로젝트는 AWS Bedrock에서 제공하는 Foundation Model(Nova 시리즈)의 한국어 처리 능력을 다양한 벤치마크로 평가합니다.
 
 ### 주요 기능
 
-- **4개 표준 벤치마크 지원**: KLUE, KoBEST, HAE-RAE, KMMLU
-- **27개+ 태스크**: 추론, 유사도, 개체명 인식, 독해, 분류 등
+- **3개 표준 벤치마크 지원**: KoBEST, HAE-RAE, KMMLU
+- **12개 태스크**: 추론, 독해, 상식, 어휘, 지식 평가 등
 - **선택적 태스크 실행**: 특정 태스크만 재실행 가능 (`--tasks` 옵션)
 - **자동 결과 저장**: JSON 및 마크다운 리포트 생성
-- **웹 대시보드**: Streamlit 기반 시각화
 - **비용 추적**: 토큰 사용량 및 예상 비용 계산
 - **중복 실행 방지**: 동일 조건 테스트 자동 스킵
 
@@ -22,27 +51,14 @@ AWS Bedrock 기반 LLM 모델의 한국어 성능을 평가하는 벤치마크 �
 
 | 모델 | Model ID | 입력 (1K 토큰) | 출력 (1K 토큰) |
 |------|----------|---------------|---------------|
-| nova-lite | us.amazon.nova-lite-v1:0 | $0.00006 | $0.00024 |
-| nova-pro | us.amazon.nova-pro-v1:0 | $0.0008 | $0.0032 |
-| nova-2-lite | us.amazon.nova-2-lite-v1:0 | $0.00033 | $0.00275 |
-| claude-sonnet-4-5 | global.anthropic.claude-sonnet-4-5-20250929-v1:0 | $0.003 | $0.015 |
+| Nova Lite | us.amazon.nova-lite-v1:0 | $0.00006 | $0.00024 |
+| Nova Pro | us.amazon.nova-pro-v1:0 | $0.0008 | $0.0032 |
+| Nova 2 Lite | us.amazon.nova-2-lite-v1:0 | $0.00033 | $0.00275 |
+| Claude Sonnet 4.5 | global.anthropic.claude-sonnet-4-5-20250929-v1:0 | $0.003 | $0.015 |
 
 > Model ID는 `.env` 파일에서 커스터마이즈 가능합니다.
 
 ## 벤치마크
-
-### KLUE (Korean Language Understanding Evaluation)
-
-| 태스크 | 설명 | 메트릭 |
-|--------|------|--------|
-| NLI | 자연어 추론 (함의/중립/모순) | Accuracy |
-| STS | 문장 유사도 (0~5) | Pearson |
-| NER | 개체명 인식 | F1 |
-| RE | 관계 추출 | F1 |
-| MRC | 기계 독해 | F1/EM |
-| DP | 의존 구문 분석 | UAS/LAS |
-| WoS | 대화 상태 추적 | JGA |
-| YNAT | 뉴스 주제 분류 | Accuracy |
 
 ### KoBEST (Korean Balanced Evaluation of Significant Tasks)
 
@@ -58,12 +74,12 @@ AWS Bedrock 기반 LLM 모델의 한국어 성능을 평가하는 벤치마크 �
 
 | 태스크 | 설명 | 메트릭 |
 |--------|------|--------|
-| 표준어/맞춤법 | 올바른 표현 선택 | Accuracy |
-| 외래어/로마자 | 외래어 표기법 | Accuracy |
-| 희귀어/신조어 | 어휘 이해 | Accuracy |
-| 일반 상식 | 한국 상식 | Accuracy |
-| 역사 | 한국사 지식 | Accuracy |
-| 독해 | 지문 이해 | Accuracy |
+| Standard Nomenclature | 올바른 표현 선택 | Accuracy |
+| Loan Words | 외래어 표기법 | Accuracy |
+| Rare Words | 어휘 이해 | Accuracy |
+| General Knowledge | 한국 상식 | Accuracy |
+| History | 한국사 지식 | Accuracy |
+| Reading Comprehension | 지문 이해 | Accuracy |
 
 ### KMMLU (Korean Massive Multitask Language Understanding)
 
@@ -111,7 +127,7 @@ python main.py
 python main.py --models nova-lite
 
 # 특정 벤치마크만 테스트
-python main.py --benchmarks klue
+python main.py --benchmarks kobest
 
 # 샘플 제한 (빠른 테스트용)
 python main.py --limit 100
@@ -128,14 +144,14 @@ python main.py --report
 특정 태스크만 실행하여 시간을 절약할 수 있습니다:
 
 ```bash
-# NER 태스크만 다시 실행 (기존 결과 덮어쓰기)
-python main.py --models all --benchmarks klue --tasks ner --force
+# BoolQ 태스크만 다시 실행 (기존 결과 덮어쓰기)
+python main.py --models all --benchmarks kobest --tasks boolq --force
 
 # 여러 태스크 선택 실행
-python main.py --models all --benchmarks all --tasks ner boolq copa
+python main.py --models all --benchmarks all --tasks boolq copa
 
 # 특정 모델의 특정 태스크만 실행
-python main.py --models nova-lite --benchmarks klue --tasks ner mrc --force
+python main.py --models nova-lite --benchmarks kobest --tasks boolq wic --force
 ```
 
 ### 환경 변수 설정 (.env)
@@ -151,54 +167,11 @@ HF_TOKEN=your_hf_token
 
 # 벤치마크 설정
 BENCHMARK_MODELS=nova-lite,nova-pro,nova-2-lite
-BENCHMARK_TASKS=klue,kobest,haerae
+BENCHMARK_TASKS=kobest,haerae,kmmlu
 BENCHMARK_SAMPLE_LIMIT=        # 비워두면 전체 데이터
 BENCHMARK_RATE_LIMIT=10.0
 ```
 
-### 대시보드 실행
-
-```bash
-streamlit run dashboard/app.py
-```
-
-## 결과
-
-### 저장 위치
-
-```
-results/
-├── raw/                    # JSON 결과 파일
-│   ├── nova-lite_klue_nli_n3000.json
-│   └── ...
-└── reports/                # 마크다운 리포트
-    ├── nova-lite_klue_nli_n3000.md
-    └── summary.md
-```
-
-### 파일명 형식
-
-```
-{모델}_{벤치마크}_{태스크}_n{샘플수}.json
-{모델}_{벤치마크}_{태스크}_full.json  # 전체 데이터셋
-```
-
-### 결과 예시
-
-```json
-{
-  "benchmark_name": "klue",
-  "task_name": "nli",
-  "model_name": "nova-lite",
-  "metrics": {
-    "accuracy": 0.808
-  },
-  "metadata": {
-    "num_examples": 3000,
-    "elapsed_time_sec": 4852,
-    "cost_estimate": 0.19
-  }
-}
 ```
 
 ## 프로젝트 구조
@@ -212,14 +185,12 @@ aws-llm-model-benchmark/
 │   │   ├── bedrock_client.py    # AWS Bedrock API
 │   │   └── nova_models.py       # Nova 모델 래퍼
 │   ├── benchmarks/
-│   │   ├── klue/            # KLUE 8개 태스크
 │   │   ├── kobest/          # KoBEST 5개 태스크
 │   │   ├── haerae/          # HAE-RAE 6개 태스크
 │   │   └── kmmlu/           # KMMLU 45개 분야
 │   ├── evaluators/          # 평가 메트릭
 │   ├── runners/             # 벤치마크 실행기
 │   └── utils/               # 유틸리티
-├── dashboard/               # Streamlit 대시보드
 ├── results/                 # 결과 저장
 ├── main.py                  # 메인 실행 스크립트
 └── requirements.txt
@@ -227,30 +198,32 @@ aws-llm-model-benchmark/
 
 ## 참고 자료
 
-- [KLUE Benchmark](https://klue-benchmark.com/)
 - [KoBEST Paper](https://arxiv.org/abs/2204.04541)
 - [HAE-RAE Bench](https://huggingface.co/datasets/HAERAE-HUB/HAE_RAE_BENCH)
+- [KMMLU](https://huggingface.co/datasets/HAERAE-HUB/KMMLU)
 - [AWS Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
 - [Open Ko-LLM Leaderboard](https://huggingface.co/spaces/upstage/open-ko-llm-leaderboard)
 
 ## 변경 이력
 
-### v1.1.0 (2025-12-26)
+### v1.2.0 (2024-12-28)
+
+**변경 사항**
+- KLUE 벤치마크 제거 (LLM 평가에 적합하지 않은 DP, WOS 등 태스크 포함)
+- KoBEST, HAE-RAE, KMMLU 3개 벤치마크로 집중
+- 이진 분류 태스크 답변 추출 로직 개선
+
+### v1.1.0 (2024-12-26)
 
 **새로운 기능**
 - `--tasks` 옵션 추가: 특정 태스크만 선택적으로 실행 가능
 - KMMLU 벤치마크 지원 추가 (45개 전문 분야)
 - 대시보드 다국어 지원 개선 (영어/한국어)
 
-**버그 수정**
-- KLUE NER 태그 매핑 오류 수정 (TAG_MAP이 잘못되어 F1 점수가 0에 가까웠던 문제)
-- NER 평가 시 문자 단위 토큰 처리 개선
-
 ### v1.0.0 (초기 릴리스)
 
-- KLUE, KoBEST, HAE-RAE 벤치마크 지원
+- KoBEST, HAE-RAE 벤치마크 지원
 - AWS Bedrock Nova 모델 (Lite, Pro, Nova 2 Lite) 지원
-- Streamlit 대시보드
 - 자동 결과 저장 및 중복 실행 방지
 
 ## 라이선스
