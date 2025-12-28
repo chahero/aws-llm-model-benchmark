@@ -6,7 +6,7 @@ A benchmarking framework for evaluating Korean language performance of LLM model
 
 ## Benchmark Results
 
-> December 2024 benchmark results for models available on AWS Bedrock.
+> benchmark results for models available on AWS Bedrock.
 
 ### Summary
 
