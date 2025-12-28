@@ -10,6 +10,8 @@ A benchmarking framework for evaluating Korean language performance of LLM model
 
 ### Summary
 
+> Claude Sonnet 4.5 was tested with 100 samples, Nova series were tested with full datasets.
+
 | Benchmark | Task | Claude Sonnet 4.5 | Nova Pro | Nova Lite | Nova 2 Lite |
 |-----------|------|:-----------------:|:--------:|:---------:|:-----------:|
 | **KoBEST** | BoolQ | **97.0%** | 97.1% | 95.6% | 81.6% |

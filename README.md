@@ -10,6 +10,8 @@ AWS Bedrock 기반 LLM 모델의 한국어 성능을 평가하는 벤치마크 �
 
 ### 전체 결과 요약
 
+> Claude Sonnet 4.5는 100개 샘플로 테스트, Nova 시리즈는 전체 데이터셋으로 테스트되었습니다.
+
 | 벤치마크 | 태스크 | Claude Sonnet 4.5 | Nova Pro | Nova Lite | Nova 2 Lite |
 |----------|--------|:-----------------:|:--------:|:---------:|:-----------:|
 | **KoBEST** | BoolQ | **97.0%** | 97.1% | 95.6% | 81.6% |
@@ -170,8 +172,6 @@ BENCHMARK_MODELS=nova-lite,nova-pro,nova-2-lite
 BENCHMARK_TASKS=kobest,haerae,kmmlu
 BENCHMARK_SAMPLE_LIMIT=        # 비워두면 전체 데이터
 BENCHMARK_RATE_LIMIT=10.0
-```
-
 ```
 
 ## 프로젝트 구조
