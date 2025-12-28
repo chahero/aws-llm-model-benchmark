@@ -7,7 +7,6 @@ from typing import List
 from config.settings import MODELS, benchmark_config
 from src.runners.benchmark_runner import BatchBenchmarkRunner
 from src.benchmarks.kobest import get_all_kobest_benchmarks
-from src.benchmarks.klue import get_all_klue_benchmarks
 from src.benchmarks.haerae import get_all_haerae_benchmarks
 from src.benchmarks.kmmlu import get_all_kmmlu_benchmarks
 from src.utils.logger import get_logger
@@ -21,16 +20,14 @@ def get_benchmarks(benchmark_names: List[str], task_filter: List[str] = None):
     벤치마크 인스턴스 반환
 
     Args:
-        benchmark_names: 벤치마크 카테고리 (kobest, klue, haerae, kmmlu, all)
-        task_filter: 특정 태스크만 실행 (예: ["ner", "boolq"])
+        benchmark_names: 벤치마크 카테고리 (kobest, haerae, kmmlu, all)
+        task_filter: 특정 태스크만 실행 (예: ["boolq", "copa"])
     """
     benchmarks = []
 
     if "kobest" in benchmark_names or "all" in benchmark_names:
         benchmarks.extend(get_all_kobest_benchmarks())
 
-    if "klue" in benchmark_names or "all" in benchmark_names:
-        benchmarks.extend(get_all_klue_benchmarks())
 
     if "haerae" in benchmark_names or "all" in benchmark_names:
         benchmarks.extend(get_all_haerae_benchmarks())
@@ -61,10 +58,10 @@ def main():
   python main.py --models all --benchmarks all --limit 100
 
   # 특정 태스크만 실행 (NER만 다시 테스트)
-  python main.py --models all --benchmarks klue --tasks ner --force
+  python main.py --models all --benchmarks kobest --tasks boolq --force
 
   # 여러 태스크 선택 실행
-  python main.py --models nova-pro --benchmarks all --tasks ner boolq copa
+  python main.py --models nova-pro --benchmarks all --tasks boolq copa copa
 
   # 특정 모델의 HAE-RAE 벤치마크만 실행
   python main.py --models nova-2-lite --benchmarks haerae
@@ -86,7 +83,7 @@ def main():
         "--tasks",
         nargs="+",
         default=None,
-        help="실행할 특정 태스크 (예: --tasks ner boolq). 지정하면 해당 태스크만 실행",
+        help="실행할 특정 태스크 (예: --tasks boolq copa). 지정하면 해당 태스크만 실행",
     )
     parser.add_argument(
         "--limit",

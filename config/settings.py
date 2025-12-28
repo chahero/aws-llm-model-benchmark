@@ -127,14 +127,12 @@ class BenchmarkConfig:
 class DatasetConfig:
     """데이터셋 경로 설정"""
     # HuggingFace 데이터셋 경로
-    KLUE: str = "klue"
     KOBEST: str = "skt/kobest_v1"
     HAERAE: str = "HAERAE-HUB/HAE_RAE_BENCH"
 
 
 # 벤치마크별 태스크 목록
 BENCHMARK_TASKS: Dict[str, list] = {
-    "klue": ["dp", "mrc", "ner", "nli", "re", "sts", "wos", "ynat"],
     "kobest": ["boolq", "copa", "wic", "hellaswag", "sentineg"],
     "haerae": [
         "general_knowledge", "history", "reading_comprehension",

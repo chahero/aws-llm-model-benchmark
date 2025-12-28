@@ -182,15 +182,6 @@ TASK_TO_BENCHMARK = {
     "wic": "KoBEST",
     "hellaswag": "KoBEST",
     "sentineg": "KoBEST",
-    # KLUE
-    "nli": "KLUE",
-    "sts": "KLUE",
-    "ner": "KLUE",
-    "re": "KLUE",
-    "mrc": "KLUE",
-    "dp": "KLUE",
-    "wos": "KLUE",
-    "ynat": "KLUE",
     # HAE-RAE
     "general_knowledge": "HAE-RAE",
     "history": "HAE-RAE",
@@ -205,7 +196,6 @@ TASK_TO_BENCHMARK = {
 # 벤치마크 색상
 BENCHMARK_COLORS = {
     "KoBEST": "#3498db",   # 파랑
-    "KLUE": "#e67e22",     # 주황
     "HAE-RAE": "#27ae60",  # 초록
     "KMMLU": "#9b59b6",    # 보라
 }
@@ -245,15 +235,6 @@ TASK_DESCRIPTIONS = {
         "wic": "WiC - 문맥 속 단어 의미 구별",
         "hellaswag": "HellaSwag - 상식 기반 문장 완성",
         "sentineg": "SentiNeg - 부정 표현 감정 분석",
-        # KLUE
-        "nli": "NLI - 자연어 추론 (두 문장 관계 분류)",
-        "sts": "STS - 문장 유사도 측정 (0~5점)",
-        "ner": "NER - 개체명 인식 (인물/장소/기관 등)",
-        "re": "RE - 관계 추출 (엔티티 간 관계 분류)",
-        "mrc": "MRC - 기계 독해 (지문에서 답 찾기)",
-        "dp": "DP - 의존 구문 분석",
-        "wos": "WoS - 대화 상태 추적",
-        "ynat": "YNAT - 뉴스 기사 주제 분류 (7개 카테고리)",
         # HAE-RAE
         "general_knowledge": "일반 상식 - 한국 문화/상식 지식",
         "history": "한국사 - 역사적 사실 및 사건",
@@ -271,15 +252,6 @@ TASK_DESCRIPTIONS = {
         "wic": "WiC - Word Sense Disambiguation in Context",
         "hellaswag": "HellaSwag - Commonsense Sentence Completion",
         "sentineg": "SentiNeg - Negation Sentiment Analysis",
-        # KLUE
-        "nli": "NLI - Natural Language Inference (Sentence Relationship)",
-        "sts": "STS - Semantic Textual Similarity (0~5 scale)",
-        "ner": "NER - Named Entity Recognition (Person/Location/Org)",
-        "re": "RE - Relation Extraction (Entity Relationships)",
-        "mrc": "MRC - Machine Reading Comprehension",
-        "dp": "DP - Dependency Parsing",
-        "wos": "WoS - Wizard of Seoul (Dialog State Tracking)",
-        "ynat": "YNAT - News Topic Classification (7 Categories)",
         # HAE-RAE
         "general_knowledge": "General Knowledge - Korean Culture & Common Sense",
         "history": "History - Korean Historical Facts & Events",
@@ -339,7 +311,6 @@ st.markdown("""
         color: white;
     }
     .benchmark-kobest { background-color: #3498db; }
-    .benchmark-klue { background-color: #e67e22; }
     .benchmark-haerae { background-color: #27ae60; }
     .benchmark-kmmlu { background-color: #9b59b6; }
 </style>
@@ -716,7 +687,7 @@ def main():
 
     # 벤치마크 카테고리 필터
     st.sidebar.markdown("---")
-    benchmark_categories = ["KoBEST", "KLUE", "HAE-RAE", "KMMLU"]
+    benchmark_categories = ["KoBEST", "HAE-RAE", "KMMLU"]
     selected_categories = st.sidebar.multiselect(
         T("benchmark_category"),
         options=benchmark_categories,
@@ -812,7 +783,6 @@ def main():
             def color_benchmark(val):
                 colors = {
                     "KoBEST": "background-color: #3498db33; font-weight: bold",
-                    "KLUE": "background-color: #e67e2233; font-weight: bold",
                     "HAE-RAE": "background-color: #27ae6033; font-weight: bold",
                     "KMMLU": "background-color: #9b59b633; font-weight: bold",
                 }
@@ -934,7 +904,6 @@ def main():
 
         benchmark_task_map = {
             "KoBEST": ["boolq", "copa", "wic", "hellaswag", "sentineg"],
-            "KLUE": ["nli", "sts", "ner", "re", "mrc", "dp", "wos", "ynat"],
             "HAE-RAE": ["general_knowledge", "history", "reading_comprehension",
                        "standard_nomenclature", "loan_words", "rare_words"],
             "KMMLU": ["kmmlu"],
@@ -1141,22 +1110,6 @@ def main():
 
             with col2:
                 st.markdown("""
-                #### 🟠 KLUE
-                Korean Language Understanding Evaluation
-
-                | 태스크 | 설명 | 메트릭 |
-                |--------|------|--------|
-                | NLI | 자연어 추론 | Accuracy |
-                | STS | 문장 유사도 | Pearson |
-                | NER | 개체명 인식 | F1 |
-                | RE | 관계 추출 | F1 |
-                | MRC | 기계 독해 | EM/F1 |
-                | DP | 의존 구문 분석 | - |
-                | WoS | 대화 상태 추적 | JGA |
-                | YNAT | 뉴스 분류 | Accuracy |
-                """)
-
-                st.markdown("""
                 #### 🟣 KMMLU
                 Korean Massive Multitask Language Understanding
 
@@ -1196,22 +1149,6 @@ def main():
                 """)
 
             with col2:
-                st.markdown("""
-                #### 🟠 KLUE
-                Korean Language Understanding Evaluation
-
-                | Task | Description | Metric |
-                |------|-------------|--------|
-                | NLI | Natural Language Inference | Accuracy |
-                | STS | Semantic Textual Similarity | Pearson |
-                | NER | Named Entity Recognition | F1 |
-                | RE | Relation Extraction | F1 |
-                | MRC | Machine Reading Comprehension | EM/F1 |
-                | DP | Dependency Parsing | - |
-                | WoS | Dialog State Tracking | JGA |
-                | YNAT | News Classification | Accuracy |
-                """)
-
                 st.markdown("""
                 #### 🟣 KMMLU
                 Korean Massive Multitask Language Understanding

@@ -40,7 +40,7 @@ class BaseBenchmark(ABC):
     def __init__(self, benchmark_name: str, task_name: str):
         """
         Args:
-            benchmark_name: 벤치마크 이름 (klue, kobest, haerae)
+            benchmark_name: 벤치마크 이름 (kobest, haerae, kmmlu)
             task_name: 태스크 이름
         """
         self.benchmark_name = benchmark_name
